@@ -3,8 +3,8 @@ package experiment;
 public class BoardCell {
 	int row;
 	int col;
-public BoardCell(){
-	row = 0;
-	col = 0;
+public BoardCell(int a, int b){
+	row = b;
+	col = a;
 }
 }
