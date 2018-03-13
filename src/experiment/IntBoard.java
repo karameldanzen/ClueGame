@@ -1,21 +1,42 @@
 package experiment;
 import java.util.*;
+import java.io.*;
+
 public class IntBoard {
-	private int MAX_SIZE = 4;
+
+	private int rows;
+	private int cols;
+	private int MAX_SIZE = 50;
+	private Map<Character, String> cellMap;
 	private Map<BoardCell, Set<BoardCell>> adjacentTileMap = new HashMap<BoardCell, Set<BoardCell>>();
 	// private Set<BoardCell> visitedTiles;
-	private Set<BoardCell> visited = new HashSet<BoardCell>();
-	private Set<BoardCell> validTargets = new HashSet<BoardCell>();
-	public BoardCell a; 
+	private Set<BoardCell> visited;
+	private Set<BoardCell> validTargets = new HashSet<BoardCell>(); 
+	private String boardConf;
+	private String roomConf;
 	public BoardCell[][] grid;
+
+	private static IntBoard gameBoard = new IntBoard();
+
 	public IntBoard() {
-		grid = new BoardCell[MAX_SIZE][MAX_SIZE] ;
-		for (int i = 0; i < MAX_SIZE; i++){
-			for (int j = 0; j < MAX_SIZE; j++){			
-				grid[i][j] =  new BoardCell(i,j);
-			}
+		super();
+	}
+
+	public static IntBoard getBoard() {
+		return gameBoard;
+	}
+
+	public void initializeBoard() {
+		try {
+			loadRoomConf();
+			loadBoardConf();
+		} catch (BadConfigFormatException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException f){
+			f.printStackTrace();
 		}
 		calcAdjacencies();
+		visited = new HashSet<BoardCell>();
 	}
 	public void calcAdjacencies(){
 		for(int i = 0; i < grid.length; i++) { // i equals columns j = rows 
@@ -66,7 +87,7 @@ public class IntBoard {
 			if (!visited.contains(s)) {
 				visited.add(startCell);
 				if (pathLength == 1) {
-					
+
 					validTargets.addAll(hold);
 				}
 				else{
