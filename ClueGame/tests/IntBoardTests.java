@@ -5,16 +5,16 @@ import java.util.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import experiment.BoardCell;
-import experiment.IntBoard;
+import ClueGame.BoardCell;
+import ClueGame.Board;
 
 public class IntBoardTests {
 
-	IntBoard board;
+	Board board;
 
 @ Before 
 public void beforeAll() {
-  board = new IntBoard();// constructor should call calcAdjacencies() so you can test them
+  board = new Board();// constructor should call calcAdjacencies() so you can test them
  
 }
 

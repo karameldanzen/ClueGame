@@ -1,4 +1,4 @@
-package experiment;
+package ClueGame;
 
 public class BoardCell {
 	int row;

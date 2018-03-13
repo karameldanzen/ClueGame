@@ -1,8 +1,14 @@
-package experiment;
+package ClueGame;
 import java.util.*;
 import java.io.*;
 
-public class IntBoard {
+
+public class Board {
+
+	public void setConfigFiles(String boardConf, String roomConf) {
+		this.boardConf = boardConf;
+		this.roomConf  = roomConf;
+	}
 
 	private int rows;
 	private int cols;
@@ -16,25 +22,73 @@ public class IntBoard {
 	private String roomConf;
 	public BoardCell[][] grid;
 
-	private static IntBoard gameBoard = new IntBoard();
+	private static Board gameBoard = new Board();
 
-	public IntBoard() {
+	public Board() {
 		super();
 	}
 
-	public static IntBoard getBoard() {
+	public static Board getInstance() {
 		return gameBoard;
 	}
 
-	public void initializeBoard() {
+	public void loadRoomConfig() {
+		File roomConfig = new File(roomConf);
+	//	FileInputStream fileIn = null;
+		BufferedReader reader = null;
+		String line = "";
+		String csvSplit = ",";
 		try {
-			loadRoomConf();
-			loadBoardConf();
-		} catch (BadConfigFormatException e) {
-			e.printStackTrace();
-		} catch (FileNotFoundException f){
-			f.printStackTrace();
+			reader = new BufferedReader(new FileReader(roomConfig));
+			while ((line = reader.readLine()) != null) {
+				String[] tile = line.split(csvSplit);
+				cols = tile.length;
+				System.out.print("Row: ");
+				for (String s : tile) {
+					System.out.print(s);
+				}
+				System.out.println();
+			}
 		}
+		catch (FileNotFoundException f) {
+			System.out.println("Room config not found!");
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void loadBoardConfig() {
+		File boardConfig = new File(boardConf);
+		//	FileInputStream fileIn = null;
+		BufferedReader reader = null;
+		String line = "";
+		String csvSplit = ",";
+		try {
+			reader = new BufferedReader(new FileReader(boardConfig));
+			while ((line = reader.readLine()) != null) {
+				String[] tile = line.split(csvSplit);
+				cols = tile.length;
+				System.out.print("Row: ");
+				for (String s : tile) {
+					System.out.print(s);
+				}
+				System.out.println();
+			}
+		}
+		catch (FileNotFoundException f) {
+			System.out.println("Board config not found!");
+		}
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+	public void initializeBoard() {
+		loadRoomConfig();
+		loadBoardConfig();
 		calcAdjacencies();
 		visited = new HashSet<BoardCell>();
 	}

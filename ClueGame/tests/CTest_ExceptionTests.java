@@ -9,8 +9,8 @@ import java.io.FileNotFoundException;
 
 import org.junit.Test;
 
-import clueGame.BadConfigFormatException;
-import clueGame.Board;
+import ClueGame.BadConfigFormatException;
+import ClueGame.Board;
 
 public class CTest_ExceptionTests {
 
@@ -20,7 +20,7 @@ public class CTest_ExceptionTests {
 	public void testBadColumns() throws BadConfigFormatException, FileNotFoundException {
 		// Note that we are using a LOCAL Board variable, because each 
 		// test will load different files
-		IntBoard board = IntBoard.getInstance();
+		Board board = Board.getInstance();
 		board.setConfigFiles("CTest_ClueLayoutBadColumns.csv", "CTest_ClueLegend.txt");
 		// Instead of initialize, we call the two load functions directly.
 		// This is necessary because initialize contains a try-catch. 
@@ -33,7 +33,7 @@ public class CTest_ExceptionTests {
 	// a room that is not in the legend. See first test for other important comments. 
 	@Test (expected = BadConfigFormatException.class)
 	public void testBadRoom() throws BadConfigFormatException, FileNotFoundException {
-		IntBoard board = IntBoard.getInstance();
+		Board board = Board.getInstance();
 		board.setConfigFiles("CTest_ClueLayoutBadRoom.csv", "CTest_ClueLegend.txt");
 		board.loadRoomConfig();
 		board.loadBoardConfig();
@@ -43,7 +43,7 @@ public class CTest_ExceptionTests {
 	// that is not Card or Other
 	@Test (expected = BadConfigFormatException.class)
 	public void testBadRoomFormat() throws BadConfigFormatException, FileNotFoundException {
-		IntBoard board = IntBoard.getInstance();
+		Board board = Board.getInstance();
 		board.setConfigFiles("CTest_ClueLayout.csv", "CTest_ClueLegendBadFormat.txt");
 		board.loadRoomConfig();
 	}
