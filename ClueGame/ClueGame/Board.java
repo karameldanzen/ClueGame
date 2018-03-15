@@ -10,8 +10,8 @@ public class Board {
 		this.roomConf  = roomConf;
 	}
 
-	private int rows;
-	private int cols;
+	private int rows = 23;
+	private int cols = 25;
 	private int MAX_SIZE = 50;
 	private Map<Character, String> cellMap;
 	private Map<BoardCell, Set<BoardCell>> adjacentTileMap = new HashMap<BoardCell, Set<BoardCell>>();
@@ -31,7 +31,9 @@ public class Board {
 	public static Board getInstance() {
 		return gameBoard;
 	}
+	
 
+	
 	public void loadRoomConfig() {
 		File roomConfig = new File(roomConf);
 	//	FileInputStream fileIn = null;
@@ -66,7 +68,7 @@ public class Board {
 		String csvSplit = ",";
 		try {
 			reader = new BufferedReader(new FileReader(boardConfig));
-			while ((line = reader.readLine()) != null) {
+			/* while ((line = reader.readLine()) != null) {
 				String[] tile = line.split(csvSplit);
 				cols = tile.length;
 				System.out.print("Row: ");
@@ -74,6 +76,18 @@ public class Board {
 					System.out.print(s);
 				}
 				System.out.println();
+			*/	
+			while ((line = reader.readLine()) != null) {
+				String[] tile = line.split(csvSplit);
+				cols = tile.length;
+				for (int i = 0; i < rows; i++) {
+					for (int j = 0; j < cols; j++) {
+						grid[j][i].setTileType(tile[j]);
+						System.out.print(tile[j]);
+					}
+					System.out.println();
+				}
+				
 			}
 		}
 		catch (FileNotFoundException f) {
@@ -130,11 +144,16 @@ public class Board {
 			}
 		}
 	}
-	public Set<BoardCell> getAdjList(BoardCell cell) {
+	public Set<BoardCell> getAdjList(int x, int y) {
+		BoardCell cell = new BoardCell(x,y);
 		Set<BoardCell> adjList = adjacentTileMap.get(cell);                                                                                                                                                                                                                                                                                                                                                   
 		return adjList;
 	}
 
+	public BoardCell getCellAt(int x, int y) {
+		return grid[x][y];
+	}
+	
 	public void calcTargets(BoardCell startCell, int pathLength) {
 		Set<BoardCell> hold = adjacentTileMap.get(startCell);
 		for (BoardCell s : hold){	

@@ -1,0 +1,10 @@
+G,Greenhouse,Card
+O,Observatory,Card
+B,Bakery,Card
+T,Terrorarium,Card
+R,Restroom,Card
+S,Study,Card
+L,Laundry,Card
+Y,Empty,Card
+W,Walkway,Other
+X,Closet,Other

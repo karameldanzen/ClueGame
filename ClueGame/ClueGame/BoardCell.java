@@ -3,8 +3,26 @@ package ClueGame;
 public class BoardCell {
 	int row;
 	int col;
-public BoardCell(int a, int b){
-	row = b;
-	col = a;
-}
+	public String tileType;
+	public boolean isWalkway(){
+		if (tileType == "W") return true;
+		else return false;
+	}
+	public boolean isDoorway(){
+		if (tileType.length() == 2) return true;
+		else return false;
+	}
+	public boolean isRoom(){
+		if (!isWalkway() && !isDoorway()) return true;
+		else return false;
+	}
+	public BoardCell(int a, int b){
+		row = b;
+		col = a;
+	}
+	public void setTileType(String t) {
+		tileType = t;
+	}
+	public BoardCell(){
+	}
 }
