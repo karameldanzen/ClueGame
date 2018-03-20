@@ -20,7 +20,7 @@ public class Board {
 	private Set<BoardCell> validTargets = new HashSet<BoardCell>(); 
 	private String boardConf;
 	private String roomConf;
-	private String[] roomTypes;
+	private HashMap<Character, String> roomTypes;
 	public BoardCell[][] grid;
 
 	private static Board gameBoard = new Board();
@@ -32,84 +32,54 @@ public class Board {
 	public static Board getInstance() {
 		return gameBoard;
 	}
-	
 
-	
-	public void loadRoomConfig() {
-		File roomConfig = new File(roomConf);
-	//	FileInputStream fileIn = null;
-		BufferedReader reader = null;
-		String line = "";
-		String csvSplit = ",";
+	public void loadRoomConfig() throws FileNotFoundException, BadConfigFormatException {
 		try {
-			reader = new BufferedReader(new FileReader(roomConfig));
-			while ((line = reader.readLine()) != null) {
-				String[] tile = line.split(csvSplit);
-				cols = tile.length;
-				System.out.print("Row: ");
-				for (String s : tile) {
-					System.out.print(s);
+			//	FileInputStream fileIn = null;
+			FileReader reader = new FileReader(roomConf);
+			Scanner inFile = new Scanner(reader);
+			while (inFile.hasNextLine()) {
+				String line  = inFile.nextLine();
+				String[] splitLine = line.split(",");
+				if (splitLine[0].length() > 1) {
+					throw new BadConfigFormatException("Error: Room labels should be one character in length");
 				}
-				System.out.println();
-				if (!line.contains(csvSplit)) {
-					throw new BadConfigFormatException();
+				if (splitLine[2].toLowerCase() != "card" || splitLine[2].toLowerCase() != "other") {
+					throw new BadConfigFormatException("Error: Room type should be Card or Other");
 				}
+				if (splitLine[0] == null || splitLine[1] == null || splitLine[2] == null) {
+					throw new BadConfigFormatException("Error: There should be no null values");
+				}
+				roomTypes.put(splitLine[0].toUpperCase().charAt(0),splitLine[1]);
 			}
 		}
 		catch (FileNotFoundException f) {
 			System.out.println("Room config not found!");
 		}
-		catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		catch (BadConfigFormatException c) {
-			
+			System.out.println("Bad room config format!");
 		}
 	}
-	public void loadBoardConfig() {
-		File boardConfig = new File(boardConf);
-		//	FileInputStream fileIn = null;
+	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException {
 		BufferedReader reader = null;
-		String line = "";
-		String csvSplit = ",";
+		String line;
+		String split = ",";
+		int row = 0;
+		int col = 0;
 		try {
-			reader = new BufferedReader(new FileReader(boardConfig));
-			/* while ((line = reader.readLine()) != null) {
-				String[] tile = line.split(csvSplit);
-				cols = tile.length;
-				System.out.print("Row: ");
-				for (String s : tile) {
-					System.out.print(s);
-				}
-				System.out.println();
-			*/	
+			reader = new BufferedReader(new FileReader(boardConf));
 			while ((line = reader.readLine()) != null) {
-				String[] tile = line.split(csvSplit);
-				cols = tile.length;
-				if (!line.contains(csvSplit)) {
-					throw new BadConfigFormatException();
-				}
-				for (int i = 0; i < rows; i++) {
-					for (int j = 0; j < cols; j++) {
-						grid[j][i].setTileType(tile[j]);
-						System.out.print(tile[j]);
-					}
-					System.out.println();
-				}
-
 				
 			}
 		}
 		catch (FileNotFoundException f) {
 			System.out.println("Board config not found!");
 		}
-		catch (IOException e) {
+		catch (BadConfigFormatException c) {
+			System.out.println("Bad board config format!");
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		catch (BadConfigFormatException c) {
-			
 		}
 	}
 
@@ -167,7 +137,7 @@ public class Board {
 	public BoardCell getCellAt(int x, int y) {
 		return grid[x][y];
 	}
-	
+
 	public void calcTargets(BoardCell startCell, int pathLength) {
 		Set<BoardCell> hold = adjacentTileMap.get(startCell);
 		for (BoardCell s : hold){	
