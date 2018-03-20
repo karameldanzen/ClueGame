@@ -20,7 +20,8 @@ public class Board {
 	private Set<BoardCell> validTargets = new HashSet<BoardCell>(); 
 	private String boardConf;
 	private String roomConf;
-	private HashMap<Character, String> roomTypes;
+	private HashMap<Character, String> roomTypes = new HashMap<Character, String>(); 
+	private String[] validRoomTypes = {"Card", "Other"}; 
 	public BoardCell[][] grid;
 
 	private static Board gameBoard = new Board();
@@ -44,7 +45,7 @@ public class Board {
 				if (splitLine[0].length() > 1) {
 					throw new BadConfigFormatException("Error: Room labels should be one character in length");
 				}
-				if (splitLine[2].toLowerCase() != "card" || splitLine[2].toLowerCase() != "other") {
+				if (!splitLine[2].toLowerCase().equals("card") && !splitLine[2].toLowerCase().equals("other")) {
 					throw new BadConfigFormatException("Error: Room type should be Card or Other");
 				}
 				if (splitLine[0] == null || splitLine[1] == null || splitLine[2] == null) {
@@ -60,22 +61,34 @@ public class Board {
 			System.out.println("Bad room config format!");
 		}
 	}
+	@SuppressWarnings("resource")
 	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException {
 		BufferedReader reader = null;
 		String line;
-		String split = ",";
-		int row = 0;
-		int col = 0;
+		int r = 0;
+		int c = 0;
+		grid = new BoardCell[23][25];
 		try {
 			reader = new BufferedReader(new FileReader(boardConf));
 			while ((line = reader.readLine()) != null) {
-				
+				String[] splitLine = line.split(",");
+				cols = splitLine.length;
+				for (c = 0; c < splitLine.length; c++) {
+					BoardCell cell = new BoardCell(r,c, splitLine[c].toUpperCase());
+					if (!roomTypes.containsKey(splitLine[c].toLowerCase().charAt(0)) && (!(splitLine[c].length() <= 2))) {
+						throw new BadConfigFormatException("ERROR: Room not found in room config!");
+					}
+					grid[r][c] = cell;
+					System.out.print(cell.tileType + " ");
+				}
+				System.out.println();
+				r++;
 			}
 		}
 		catch (FileNotFoundException f) {
 			System.out.println("Board config not found!");
 		}
-		catch (BadConfigFormatException c) {
+		catch (BadConfigFormatException d) {
 			System.out.println("Bad board config format!");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -85,8 +98,12 @@ public class Board {
 
 
 	public void initializeBoard() {
-		loadRoomConfig();
-		loadBoardConfig();
+		try {
+			loadRoomConfig();
+			loadBoardConfig();
+		} catch (FileNotFoundException | BadConfigFormatException e) {
+			e.printStackTrace();
+		}
 		calcAdjacencies();
 		visited = new HashSet<BoardCell>();
 	}
@@ -129,7 +146,9 @@ public class Board {
 		}
 	}
 	public Set<BoardCell> getAdjList(int x, int y) {
-		BoardCell cell = new BoardCell(x,y);
+		BoardCell cell = new BoardCell();
+		cell.row = x;
+		cell.col = y;
 		Set<BoardCell> adjList = adjacentTileMap.get(cell);                                                                                                                                                                                                                                                                                                                                                   
 		return adjList;
 	}

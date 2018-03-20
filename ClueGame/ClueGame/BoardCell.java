@@ -16,9 +16,10 @@ public class BoardCell {
 		if (!isWalkway() && !isDoorway()) return true;
 		else return false;
 	}
-	public BoardCell(int a, int b){
+	public BoardCell(int a, int b, String r){
 		row = b;
 		col = a;
+		tileType = r;
 	}
 	public void setTileType(String t) {
 		tileType = t;
