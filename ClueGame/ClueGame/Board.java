@@ -20,6 +20,7 @@ public class Board {
 	private Set<BoardCell> validTargets = new HashSet<BoardCell>(); 
 	private String boardConf;
 	private String roomConf;
+	private String[] roomTypes;
 	public BoardCell[][] grid;
 
 	private static Board gameBoard = new Board();
@@ -50,6 +51,9 @@ public class Board {
 					System.out.print(s);
 				}
 				System.out.println();
+				if (!line.contains(csvSplit)) {
+					throw new BadConfigFormatException();
+				}
 			}
 		}
 		catch (FileNotFoundException f) {
@@ -58,6 +62,9 @@ public class Board {
 		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		catch (BadConfigFormatException c) {
+			
 		}
 	}
 	public void loadBoardConfig() {
@@ -80,6 +87,9 @@ public class Board {
 			while ((line = reader.readLine()) != null) {
 				String[] tile = line.split(csvSplit);
 				cols = tile.length;
+				if (!line.contains(csvSplit)) {
+					throw new BadConfigFormatException();
+				}
 				for (int i = 0; i < rows; i++) {
 					for (int j = 0; j < cols; j++) {
 						grid[j][i].setTileType(tile[j]);
@@ -87,6 +97,7 @@ public class Board {
 					}
 					System.out.println();
 				}
+
 				
 			}
 		}
@@ -96,6 +107,9 @@ public class Board {
 		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		catch (BadConfigFormatException c) {
+			
 		}
 	}
 
