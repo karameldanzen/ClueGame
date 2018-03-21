@@ -1,9 +1,8 @@
-/* package tests;
+ package tests;
 
 /*
  * This program tests that adjacencies and targets are calculated correctly.
  */
-/*
 import java.util.Set;
 
 //Doing a static import allows me to write assertEquals rather than
@@ -12,8 +11,6 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import clueGame.Board;
-import clueGame.BoardCell;
 import ClueGame.*;
 
 public class CTest_BoardAdjTargetTests {
@@ -320,6 +317,4 @@ public class CTest_BoardAdjTargetTests {
 		assertTrue(targets.contains(board.getCellAt(5, 19)));
 		assertTrue(targets.contains(board.getCellAt(4, 18)));
 	}
-
 }
-*/
