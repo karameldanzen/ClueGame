@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import ClueGame.*;
+import clueGame.*;
 
 public class CTest_BoardAdjTargetTests {
 	// We make the Board static because we can load it one time and 

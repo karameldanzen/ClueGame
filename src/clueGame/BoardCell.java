@@ -1,4 +1,4 @@
-package ClueGame;
+package clueGame;
 
 public class BoardCell {
 	int row;
@@ -9,7 +9,7 @@ public class BoardCell {
 		else return false;
 	}
 	public boolean isDoorway(){
-		if (tileType.length() == 2) return true;
+		if (tileType.length() == 2 && (tileType.charAt(1) == 'D' || tileType.charAt(1) == 'U' || tileType.charAt(1) == 'L' || tileType.charAt(1) == 'R' )) return true;
 		else return false;
 	}
 	public boolean isRoom(){
@@ -24,8 +24,8 @@ public class BoardCell {
 	public void setTileType(String t) {
 		tileType = t;
 	}
-	public String getTileType() {
-		return tileType;
+	public char getInitial() {
+		return tileType.charAt(0);
 	}
 
 	public DoorDirection getDoorDirection() {	//What Direction
