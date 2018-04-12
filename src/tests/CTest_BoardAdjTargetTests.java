@@ -79,7 +79,6 @@ public class CTest_BoardAdjTargetTests {
 		testList = board.getAdjList(4, 3);
 		assertEquals(1, testList.size());
 		assertTrue(testList.contains(board.getCellAt(4, 4)));
-		
 	}
 	
 	// Test adjacency at entrance to rooms
@@ -274,7 +273,7 @@ public class CTest_BoardAdjTargetTests {
 	public void testTargetsIntoRoomShortcut() 
 	{
 		board.calcTargets(12, 7, 3);
-		Set<BoardCell> targets= board.getTargets();
+		Set<BoardCell> targets = board.getTargets();
 		assertEquals(12, targets.size());
 		// directly up and down
 		assertTrue(targets.contains(board.getCellAt(15, 7)));
