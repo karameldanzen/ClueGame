@@ -131,7 +131,7 @@ public class Board {
 		catch (FileNotFoundException e)
 		{
 			System.out.println(e.getMessage());
-			System.out.println ("Board config not found!");
+			System.out.println("Board config not found!");
 
 		}
 		catch (NullPointerException a) 
