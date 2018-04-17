@@ -144,6 +144,29 @@ public class Board {
 		}
 	}
 
+	void loadDeckConfig() {
+		
+	}
+	
+	void loadConfigFiles () {
+		loadDeckConfig();
+		loadBoardConfig();
+	//	loadRoomConfig();
+	
+	}
+	
+	void selectAnswer() {
+		
+	}
+	
+	void handleSuggestion() {
+		
+	}
+	
+	void checkAccusation() {
+		
+	}
+	
 	/* calcAdjacencies()
 	 * calculates adjacent tiles. should take into account room/doors.
 	 */
